@@ -11,7 +11,7 @@ jobs:
       # create dacpac using MSBUILD executable
       - name: create dacpac
         run: |
-          & 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe' kcdemodbproject.sqlproj /p:Configuration=Release
+          & 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe' Archdemo.sqlproj /p:Configuration=Release
       # No need to publish an artifact afterwards as deploy in same job
       # Login using Azure credentials
       - uses: azure/login@v1
@@ -22,10 +22,10 @@ jobs:
         uses: Azure/sql-action@v1
         with:
           # Name of the SQL Server
-          server-name: 'MYTESTSERVER.database.windows.net'
+          server-name: 'testdbserver.database.windows.net'
           # The connection string, including authentication information for the Azure SQL Database 
           connection-string: '${{ secrets.AZURE_SQL_CONNECTION_STRING }}'
           # Path to the dacpac file
-          dacpac-package: ${{ github.workspace }}\bin\Release\kcdemodbproject.dacpac
+          dacpac-package: ${{ github.workspace }}\bin\Release\Archdemo.dacpac
           # Additional arguments 
           arguments: '/p:IncludeCompositeObjects=true'   
