@@ -9,4 +9,4 @@ obs:
       uses: coreywebber/setup-sqlpackage@v1.0.0
 
     - name: Restoring the database
-      run: sqlpackage /Action:Import /sf:${{github.workspace}}\partsnew.bacpac /tsn:${{secrets.DB_SERVER}} /tdn:${{env.database}} /tu:${{env.db_user}} /tp:${{ secrets.db_password }} /p:DatabaseMaximumSize=2 /p:DatabaseEdition=Basic
+      run: sqlpackage /Action:Import /sf:${{github.workspace}}\Archdemodb.bacpac /tsn:${{secrets.DB_SERVER}} /tdn:${{env.database}} /tu:${{env.db_user}} /tp:${{ secrets.db_password }} /p:DatabaseMaximumSize=2 /p:DatabaseEdition=Basic
