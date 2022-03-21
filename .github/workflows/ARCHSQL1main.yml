@@ -1,23 +1,14 @@
 jobs:
-  # deploy job
-  deploy:
-    # Selecting the windows-latest GitHub-hosted runner
-    runs-on: windows-latest
-
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      # create dacpac using MSBUILD executable
-      - name: create dacpac
-        run: |
+deploy:
+   runs-on: windows-latest
+   steps:
+    - uses: actions/checkout@v2
+    - name: create dacpac
+        run:|
           & 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe' Archdemo.sqlproj /p:Configuration=Release
-      # No need to publish an artifact afterwards as deploy in same job
-      # Login using Azure credentials
-      - uses: azure/login@v1
-        with:
+    - uses: azure/login@v1
+        with :
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      # Use the Azure SQL Deploy Action
       - name: Azure SQL Deploy
         uses: Azure/sql-action@v1
         with:
