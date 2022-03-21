@@ -7,12 +7,12 @@ on:
          
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2019
     steps:
     - uses: actions/checkout@v2
     - name: create dacpac
       run: |
-          & 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe' "ArchDb1\ArchDb1.sqlproj" /p:Configuration=Release
+          & 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe' 'ArchDb1\ArchDb1.sqlproj' /p:Configuration=Release
       # Publish an artifact
     - uses: actions/upload-artifact@v2
       with:
@@ -35,7 +35,7 @@ jobs:
         uses: Azure/sql-action@v1
         with:
           # Name of the SQL Server
-          server-name: 'MYTESTSERVER.database.windows.net'
+          server-name: 'testdbserver.database.windows.net'
           # The connection string, including authentication information for the Azure SQL Database 
           connection-string: '${{ secrets.AZURE_SQL_CONNECTION_STRING }}'
           # Path to the Azure SQL database dacpac file
