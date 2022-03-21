@@ -2,8 +2,8 @@
     [Sno]       INT           NULL,
     [LastName]  VARCHAR (255) NULL,
     [FirstName] VARCHAR (255) NULL,
-    [Salary]    INT  (223)    NULL,
-    [Location]  VARCHAR (225) NULL
+    [Company] VARCHAR (255) NULL
+   
     
 );
 
