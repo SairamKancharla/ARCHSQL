@@ -17,7 +17,7 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: AzureSQLDB
-        path: ${{ github.workspace }}/bin/Release/  
+        path: ${{ github.workspace }}/ArchDb1/bin/Release/  
   deploy:
     runs-on: windows-latest
     needs: build
