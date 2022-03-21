@@ -1,5 +1,5 @@
 
-CREATE FUNCTION FunctionDemo
+CREATE FUNCTION FunctionCheck
 (
 )
 RETURNS VARCHAR(MAX)
