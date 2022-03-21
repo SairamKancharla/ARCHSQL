@@ -1,0 +1,43 @@
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+         
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: create dacpac
+        run:|
+          & 'C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\msbuild.exe' "ArchDb1\ArchDb1.sqlproj" /p:Configuration=Release
+      # Publish an artifact
+    - uses: actions/upload-artifact@v2
+      with:
+        name: AzureSQLDB
+        path: ${{ github.workspace }}/bin/Release/  
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - name: download AzureSQLDB artifact
+        # Downloads artifact to dacpac folder
+        uses: actions/download-artifact@v2.0.6
+        with:
+          name: AzureSQLDB
+      # Login using Azure credentials
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Azure SQL Deploy
+        uses: Azure/sql-action@v1
+        with:
+          # Name of the SQL Server
+          server-name: 'MYTESTSERVER.database.windows.net'
+          # The connection string, including authentication information for the Azure SQL Database 
+          connection-string: '${{ secrets.AZURE_SQL_CONNECTION_STRING }}'
+          # Path to the Azure SQL database dacpac file
+          dacpac-package: 'ArchDb1.dacpac'
+          # Additional arguments 
+          arguments: '/p:IncludeCompositeObjects=true'
