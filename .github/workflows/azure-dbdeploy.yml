@@ -40,5 +40,6 @@ jobs:
           connection-string: '${{ secrets.AZURE_SQL_CONNECTION_STRING }}'
           # Path to the Azure SQL database dacpac file
           dacpac-package: 'ArchDb1.dacpac'
+          
           # Additional arguments 
           arguments: '/p:AllowIncompatiblePlatform=true'
