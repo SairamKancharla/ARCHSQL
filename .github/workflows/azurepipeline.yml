@@ -1,0 +1,25 @@
+on:
+   push:
+       branches: [ master ]
+   pull_request:
+       branches: [ master ]
+   workflow_dispatch:
+job:
+    build:
+        # The type of runner that the job will run on
+        runs-on: windows-latest
+
+        # Steps represent a sequence of tasks that will be executed as part of the job
+        steps:
+          # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+          - uses: actions/checkout@v2
+
+          # create dacpac using MSBUILD executable
+          - name: create dacpac
+            run: |
+              & 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe' ArchDb1.sqlproj /p:Configuration=Release
+          # Publish an artifact
+          - uses: actions/upload-artifact@v2
+            with:
+              name: AzureSQLDB
+              path: ${{ github.workspace }}/bin/Release/  
