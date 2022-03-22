@@ -1,2 +1,2 @@
 ﻿ALTER TABLE test
-DROP COLUMN CompanyName;
+DROP COLUMN FirstName;
