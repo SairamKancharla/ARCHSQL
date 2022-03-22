@@ -1,2 +1,2 @@
-﻿ALTER TABLE test
+﻿ALTER TABLE [dbo].[test] 
 DROP COLUMN [MiddleName] ;
