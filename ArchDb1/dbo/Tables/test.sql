@@ -1,3 +1,2 @@
-﻿
-ALTER TABLE [dbo].[test]
-Add [Mobile Number] INT;
+﻿ALTER TABLE test
+DROP COLUMN CompanyName;
