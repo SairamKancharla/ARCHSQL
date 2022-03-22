@@ -1,2 +1,3 @@
-﻿ALTER TABLE test
-DROP COLUMN FirstName;
+﻿IF EXISTS (SELECT 1
+FROM [dbo].[test])
+DROP table [dbo].[test]
