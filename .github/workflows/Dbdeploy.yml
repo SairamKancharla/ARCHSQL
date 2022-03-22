@@ -16,7 +16,7 @@
         
      - uses: azure/sql-action@v1
        with:
-        server-name: 'servername.database.windows.net'
+        server-name: 'testdbserver.database.windows.net'
         connection-string: ${<!-- -->{ secrets.AZURE_SQL_CONNECTION_STRING }}
         sql-file: './test_sql_script.sql'
      # Azure logout 
