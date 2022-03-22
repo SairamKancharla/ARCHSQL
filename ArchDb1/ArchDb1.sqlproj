@@ -67,7 +67,7 @@
 	  <Build Include="dbo\Tables\test.sql" />
 	  <Build Include="dbo\Tables\ProcDemo.sql" />
 	  <Build Include="dbo\Tables\FunctionCheck.sql" />
-	  <Build Include="dbo\Tables\Alter.sql" />
+	 
 	  
   </ItemGroup>
 </Project>
