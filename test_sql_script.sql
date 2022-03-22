@@ -1,0 +1,2 @@
+ALTER TABLE test
+ALTER COLUMN [MiddleName] VARCHAR (300);
