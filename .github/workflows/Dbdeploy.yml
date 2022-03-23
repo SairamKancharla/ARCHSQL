@@ -1,8 +1,8 @@
  on:
   push:
-     branches: [ QA ]
+     branches: [ Python ]
   pull_request:
-     branches: [ QA ]
+     branches: [ Python ]
     
     
  jobs:
@@ -18,7 +18,13 @@
        with:
         server-name: 'testdbserver.database.windows.net'
         connection-string: '${{ secrets.AZURE_SQL_CONNECTION_STRING }}'
-        sql-file: './*.sql'
+        sql-file: './Sql-migrate/test_sql_script2.sql'
+        
+     - uses: azure/sql-action@v1
+       with:
+        server-name: 'testdbserver.database.windows.net'
+        connection-string: '${{ secrets.AZURE_SQL_CONNECTION_STRING }}'
+        sql-file: './Sql-migrate/test_sql_script3.sql'
         #project_path: './Sql-migrate'
         
      # Azure logout 
