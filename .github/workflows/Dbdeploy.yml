@@ -31,7 +31,7 @@ jobs:
       with:
         server-name: 'testdbserver.database.windows.net'
         connection-string: '${{ secrets.AZURE_SQL_CONNECTION_STRING }}'
-        sql-file: 'echo ${{ filename  }}'
+        sql-file: 'echo ${{test_sql_script3.sql}}'
  
     - name: logout
       run: |
