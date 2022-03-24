@@ -19,19 +19,46 @@ jobs:
         connection-string: '${{ secrets.AZURE_SQL_CONNECTION_STRING }}'
         sql-file: './Sql-migrate/test_sql_script2.sql'
         
-    - uses: azure/sql-action@v1
-      with:
-        server-name: 'testdbserver.database.windows.net'
-        connection-string: '${{ secrets.AZURE_SQL_CONNECTION_STRING }}'
-        sql-file: './Sql-migrate/test_sql_script3.sql'
-        #project_path: './Sql-migrate'
-   
-  
-    - uses: azure/sql-action@v1
-      with:
-        server-name: 'testdbserver.database.windows.net'
-        connection-string: '${{ secrets.AZURE_SQL_CONNECTION_STRING }}'
-        sql-file: 'echo ${{test_sql_script3.sql}}'
+    -name: Extract GIT Details
+id: git_details
+run: |
+merge_commit=`git log | head -n 1 | cut -d " " -f2`
+echo ::set-output name=merge_commit::$(git log | head -n 1 | cut -d " " -f2 )
+echo ::set-output name=previous_commit::$(git rev-list --parents -n 1 ${merge_commit} | cut -d ' ' -f2 )
+echo ::set-output name=comments::$(git log --pretty=format:"%s" | head -n1)
+echo "::set-output name=branch_name::$(echo ${GITHUB_REF#refs/heads/})"
+
+- name: Modified Files
+id: files
+run: |
+git diff-tree -r --no-commit-id --name-only --diff-filter=ACMRT ${{ steps.git_details.outputs.previous_commit }} ${{ steps.git_details.outputs.merge_commit }} | sed 's/:/\t/g' | cut -f 2 | grep $DEPLOYMENT_SCRIPT_FOLDER | sort -n > changed_file_list.txt
+cat changed_file_list.txt
+
+- name: Get Deployment Version & Format Files
+id: format
+run: |
+mkdir deployment_scripts
+version=$(python3 ./PythonCicdScripts/cicd_get_version.py)
+echo "Version of deployment is ${version} "
+i=1
+while read FILE;
+do
+wc_file_list=$(cat changed_file_list.txt | wc -l)
+if [[ ${FILE} == *.sql ]];
+then
+file_name=`echo ${FILE} | sed 's|.*/||'`
+cp ${FILE} ./deployment_scripts/V${version}.${i}__${file_name}
+#echo cp ${FILE} ./deployment_scripts/V${version}.${i}__${file_name}
+i=$(( ${i} + 1 ))
+fi
+done < changed_file_list.txt
+ls ./deployment_scripts
+
+- name: Execute Python Deployment Script
+run: |
+python3 ./PythonCicdScripts/cicd_snowpydeploy.py -f ./deployment_scripts/ -a ${SNOWFLAKE_ACCOUNT} -u ${SNOWFLAKE_USER} -p ${SNOWFLAKE_PASSWORD} -r ${SNOWFLAKE_ROLE} --snowflake-warehouse ${SNOWFLAKE_WAREHOUSE} --autocommit --change-history-table ${CHANGE_HISTORY_TABLE} --environment '${{ steps.envid.outputs.STEPVAR1 }}' --git-repository ${{ github.repository }} --git-branch ${{ steps.git_details.outputs.branch_name }} --git-commit ${{ steps.git_details.outputs.merge_commit }} --release-comments '${{ steps.git_details.outputs.comments }}' --vars '{"environment_ds": "'${{ steps.envid.outputs.STEPVAR2 }}'","environment_cm":"'_${ENVIRONMENT_CM}'"}'
+
+
  
     - name: logout
       run: |
