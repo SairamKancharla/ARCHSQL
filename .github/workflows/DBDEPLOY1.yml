@@ -28,6 +28,7 @@ jobs:
         sql-file: './Sql-migrate/test_sql_script3.sql'
         #project_path: './Sql-migrate'
         
+        
      # Azure logout 
      - name: logout
        run: |
