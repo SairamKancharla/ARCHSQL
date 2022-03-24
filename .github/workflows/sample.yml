@@ -61,4 +61,4 @@ jobs:
       with: 
         connection-string: '${{ secrets.AZURE_SQL_CONNECTION_STRING_NO_DATABASE }}Initial Catalog=master;'
         sql-file: ./__testdata__/cleanup.sql
-        arguments: '-v DbName="${{ env.TEST_DB }}"'*/
+        arguments: '-v DbName="${{ env.TEST_DB }}"'
