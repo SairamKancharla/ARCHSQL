@@ -19,18 +19,23 @@ jobs:
        with:
         server-name: 'testdbserver.database.windows.net'
         connection-string: '${{ secrets.AZURE_SQL_CONNECTION_STRING }}'
-        sql-file: './Sql-migrate/test_sql_script2.sql'
+        sql-file: './test_sql_script.sql'
         
-     - uses: azure/sql-action@v1
-       with:
-        server-name: 'testdbserver.database.windows.net'
-        connection-string: '${{ secrets.AZURE_SQL_CONNECTION_STRING }}'
-        sql-file: './Sql-migrate/test_sql_script3.sql'
-        #project_path: './Sql-migrate'
         
+     - name: array
+       id: arr
+       run: |
+          arr=()
+          for i in "$(./*.sql)"
+          do
+           
+              arr+=($i)
+          
+          done
+          echo ::set-output name=arr::${arr[@]}
         
      # Azure logout 
      - name: logout
        run: |
             az logout
-                                                                                 
+            
