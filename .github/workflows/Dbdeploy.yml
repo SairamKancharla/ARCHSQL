@@ -20,10 +20,9 @@ jobs:
         server-name: 'testdbserver.database.windows.net'
         connection-string: '${{ secrets.AZURE_SQL_CONNECTION_STRING }}'
         sql-file: |
-          test_sql_script.sql
-          test_sql_script2.sql
+          './test_sql_script.sql';
+       
         
-   
      # Azure logout 
      - name: logout
        run: |
