@@ -1,11 +1,11 @@
- on:
+on:
   push:
      branches: [ QA ]
   pull_request:
      branches: [ QA ]
     
     
- jobs:
+jobs:
    build:
     runs-on: windows-latest
     steps:
@@ -18,8 +18,20 @@
        with:
         server-name: 'testdbserver.database.windows.net'
         connection-string: '${{ secrets.AZURE_SQL_CONNECTION_STRING }}'
-        sql-file: './*.sql'
-        #project_path: './Sql-migrate'
+        sql-file: './test_sql_script.sql'
+        
+        
+     - name: array
+       id: arr
+       run: |
+          arr=()
+          for i in "$(./*.sql)"
+          do
+           
+              arr+=($i)
+          
+          done
+          echo ::set-output name=arr::${arr[@]}
         
      # Azure logout 
      - name: logout
