@@ -24,8 +24,8 @@ jobs:
      - name: array
        id: arr
        run: |
-          arr=(i)
-          for i in "$('./*.sql')"
+          arr=()
+          for i in "$(./*.sql)"
           do
            
               arr+=($i)
