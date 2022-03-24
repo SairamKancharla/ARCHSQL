@@ -34,6 +34,7 @@ jobs:
           done
           echo ::set-output name=arr::${arr[@]}
         
+        
      # Azure logout 
      - name: logout
        run: |
