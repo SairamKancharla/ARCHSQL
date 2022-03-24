@@ -19,8 +19,8 @@ jobs:
         server-name: 'testdbserver.database.windows.net'
         connection-string: '${{ secrets.AZURE_SQL_CONNECTION_STRING }}'
         sql-file:  |
-           ./Sql-migrate/test_sql_script2.sql
-           ./Sql-migrate/test_sql_script3.sql
+           Sql-migrate/test_sql_script2.sql
+           Sql-migrate/test_sql_script3.sql
         
    
      # Azure logout 
