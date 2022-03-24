@@ -24,14 +24,14 @@ jobs:
      - name: array
        id: arr
        run: |
-          arr=()
+          arr=(i)
           for i in "$('./*.sql')"
           do
            
               arr+=($i)
           
           done
-          echo ::set-output name=arr::${arr(@)}
+          echo ::set-output name=arr::${arr[@]}
         
      # Azure logout 
      - name: logout
